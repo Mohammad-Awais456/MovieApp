@@ -1,25 +1,30 @@
-import { View,Image, Pressable, Keyboard } from 'react-native'
+import { View, Image } from "react-native";
 import logo from "../assets/images/logo.png";
-const Container = ({children, className}) => {
+import { SafeAreaView } from "react-native-safe-area-context";
+const Container = ({ children, className, showLogo = true }) => {
   return (
-     <Pressable style={{ flex: 1 }} onPress={Keyboard.dismiss}>
+    <SafeAreaView className="bg-secondary" style={{ flex: 1 }}>
+      <View
+        style={{ flex: 1 }}
+        className={`  py-[45] px-4  ${className || ""}`}
+      >
+        {showLogo && (
+          <Image
+            source={logo}
+            style={{
+              width: 200,
+              height: 70,
+              alignSelf: "center",
+              resizeMode: "contain",
 
-    <View style={{paddingTop: 40}} className={`flex-1 bg-secondary py-2 px-2  ${className || ''}`}>
-    <Image
-  source={logo}
-  style={{
-    width: 200,
-    height:70,
-    alignSelf: "center",
-    resizeMode: "contain",
-    
-    marginBottom: 20,
-  }}
-/>
-      {children}
-    </View>
-    </Pressable>
-  )
-}
+              marginBottom: 20,
+            }}
+          />
+        )}
+        {children}
+      </View>
+    </SafeAreaView>
+  );
+};
 
-export default Container
+export default Container;

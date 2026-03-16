@@ -1,34 +1,25 @@
 import { View, Text, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect } from "react";
-
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 export default function MyTabBar({ state, descriptors, navigation }) {
-
-  const tabs =[
-    {name:"index"},
-    {name:"search"},
-    {name:"saved"},
-    {name:"profile"},
-
-  ]
-
-  useEffect(()=>{
-    console.log(state);
-    
-  })
-
-
+  const tabs = [{ name: "index" }, { name: "search" }, { name: "saved" }];
+  const insets = useSafeAreaInsets();
   return (
-    <View style={{
-      flexDirection: "row",
-      height: 45,
-      marginHorizontal: 20,
-      marginBottom: 20,
-      borderRadius: 100,
-      backgroundColor: "black"
-    }}>
+    <View
+      style={{
+        position: "absolute",
+        bottom: insets.bottom + 5,
+        alignSelf: "center",
+        width: "90%",
+        flexDirection: "row",
+        height: 45,
+        marginBottom: 0,
+        borderRadius: 100,
+        backgroundColor: "black",
+      }}
+    >
       {tabs.map((route, index) => {
-       
         const isFocused = state.routes[state.index].name === route.name;
 
         const onPress = () => {
@@ -37,7 +28,7 @@ export default function MyTabBar({ state, descriptors, navigation }) {
 
         return (
           <Pressable
-            key={route.name+index}
+            key={route.name + index}
             onPress={onPress}
             style={{
               flex: 1,
@@ -46,19 +37,33 @@ export default function MyTabBar({ state, descriptors, navigation }) {
             }}
             className={`flex-row rounded-full  gap-1   ${isFocused ? "bg-accent" : ""}`}
           >
-            <Ionicons name={
-              route.name==="index"?"home":route.name==="profile"?"grid-outline":route.name==="saved"?"bookmark-outline":route.name==="search"?"search-outline":""
-
-
-            } size={18} color={isFocused?"black":"white"} />
-            {
-              isFocused &&
-            <Text numberOfLines={1}  style={{fontSize:15}} className={`
+            <Ionicons
+              name={
+                route.name === "index"
+                  ? "home"
+                  : route.name === "profile"
+                    ? "grid-outline"
+                    : route.name === "saved"
+                      ? "bookmark-outline"
+                      : route.name === "search"
+                        ? "search-outline"
+                        : ""
+              }
+              size={18}
+              color={isFocused ? "black" : "white"}
+            />
+            {isFocused && (
+              <Text
+                numberOfLines={1}
+                style={{ fontSize: 15 }}
+                className={`
               capitalize
               
               ${isFocused ? "color-text" : "color-primary"}`}
-              >{index===0?"Home":route.name}</Text>
-            }
+              >
+                {index === 0 ? "Home" : route.name}
+              </Text>
+            )}
           </Pressable>
         );
       })}
